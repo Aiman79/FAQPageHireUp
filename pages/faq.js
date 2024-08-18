@@ -1,12 +1,15 @@
 import Head from "next/head";
-import Data from "../components/Data";
-import { data } from "autoprefixer";
-import '../src/app/globals.css'
+import '../src/app/globals.css';
+// import { useState, useEffect } from "react";
+// import { useRouter } from "next/router";
 import { useState } from "react";
+import React from "react";
+import { Collapse } from "react-collapse";
+import { AiOutlineMinus } from "react-icons/ai";
+import { AiOutlinePlus } from "react-icons/ai";
 
 export default function Home(){
-
-    
+    // const router = useRouter();
     const dataFaq = [
         { 
             "id": 1,
@@ -59,6 +62,51 @@ export default function Home(){
         setOpen(null)
     }
 
+    // useEffect(() => {
+    //     const query = router.query;
+    //     if (query.search) {
+    //       setSearchTerm(query.search);
+    //     }
+    //   }, [router.query]);
+    
+    //   useEffect(() => {
+    //     const query = { ...router.query };
+    //     if (searchTerm) {
+    //       query.search = searchTerm;
+    //     } else {
+    //       delete query.search;
+    //     }
+    //     router.push({
+    //       pathname: router.pathname,
+    //       query,
+    //     });
+    //   }, [searchTerm, router]);
+
+    const FaqItem = ({open, toggle, question, answer}) => {
+        return(
+            <div className="pt-[10x]">
+               <div className="bg-white py-[25px] px-[50px] flex justify-between items-centre cursor-pointer"
+                    onClick={toggle}>
+                        <p className="text-[22px] text-black font-semibold">
+                            {question}
+                        </p>
+
+                        <div className="text-[30px] text-black">
+                            {
+                                open ? <AiOutlineMinus color="black"/> : <AiOutlinePlus color="black"/>
+                            }
+                        </div>
+               </div>
+
+               <Collapse isOpened = {open}>
+                    <div className="bg-white px-[50px] text-black pb-[20px]">{answer}
+                        
+                    </div>
+               </Collapse>
+            </div>
+        );
+    };
+
     return(
         <div>
             <Head>
@@ -74,6 +122,7 @@ export default function Home(){
                         type="search"
                         placeholder="Search FAQs"
                         className="w-full p-2 mb-4 text-black"
+                        value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         onInput={(e) => {
                             if(e.target.value === ''){
@@ -84,7 +133,7 @@ export default function Home(){
                 
                 {
                     filteredData.map((data, index) => {
-                    return <Data key={index} open={allExpanded || open === index} question={data.question} answer={data.answer} toggle={() => toggle(index)} />;
+                    return <FaqItem key={index} open={allExpanded || open === index} question={data.question} answer={data.answer} toggle={() => toggle(index)} />;
                 })
                 }
                     </div>

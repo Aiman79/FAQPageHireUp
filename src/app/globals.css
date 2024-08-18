@@ -31,3 +31,15 @@ body {
     text-wrap: balance;
   }
 }
+
+.ReactCollapse--collapse {
+  transition: height 500ms;
+}
+
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+}
